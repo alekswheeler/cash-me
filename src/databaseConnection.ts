@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm'
 import { join } from 'path'
 import { Account } from './Accounts/Entities/Account'
+import { User } from './Users/entities/User'
 
 const createConnection = (host: string = 'cashme_db') => {
   const AppDataSource = new DataSource({
@@ -10,7 +11,7 @@ const createConnection = (host: string = 'cashme_db') => {
     username: 'postgres',
     password: 'password',
     database: 'cashmedb',
-    entities: [Account],
+    entities: [Account, User],
     migrations: [join(__dirname, 'migrations/**/*.ts')],
   })
 
