@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "ts-node-dev --ignore-watch node_modules --respawn --transpile-only src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs",
-    "migration:up": "yarn typeorm migration:run -d src/migrations.config.ts",
+    "migration:up": "yarn typeorm migration:run -d ./src/migrations.config.ts",
     "migration:down": "yarn typeorm migration:revert -d src/migrations.config.ts"
   },
   "dependencies": {
