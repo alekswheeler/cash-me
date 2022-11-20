@@ -9,7 +9,7 @@ const createConnection = async (host: string = 'cashme_db') => {
     username: 'postgres',
     password: 'password',
     database: 'cashmedb',
-    migrations: [join(__dirname, 'src/migrations/**/*.ts')],
+    migrations: [join(__dirname, 'migrations/**/*.ts')],
   })
 
   AppDataSource.initialize().catch((err) => {
