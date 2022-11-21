@@ -26,7 +26,7 @@ export class createTableTransactions1668859495525
           },
           {
             name: 'created_at',
-            type: 'timestamp',
+            type: 'date',
           },
         ],
         foreignKeys: [
