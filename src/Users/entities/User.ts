@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm'
-import { Account } from '../../Accounts/Entities/Account'
 import { v4 as uuidv4 } from 'uuid'
+import { Account } from '../../Accounts/Entities/Account'
 
 @Entity('users')
 class User {
@@ -17,13 +17,13 @@ class User {
   @JoinColumn({
     name: 'account_id',
   })
-  accountId: string
+  account: Account
 
-  constructor(username: string, password: string, accountId: string) {
+  constructor(username: string, password: string, account: Account) {
     this.id = uuidv4()
     this.username = username
     this.password = password
-    this.accountId = accountId
+    this.account = account
   }
 }
 

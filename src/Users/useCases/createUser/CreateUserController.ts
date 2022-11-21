@@ -34,7 +34,7 @@ class CreateUserController {
 
     try {
       account = await accountsRepositories.create()
-      user = new User(username, password, account.id)
+      user = new User(username, password, account)
     } catch (error) {
       console.log(error)
       return response.status(500).json({ error: 'Internal Server Error1' })

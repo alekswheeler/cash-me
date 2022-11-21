@@ -21,13 +21,16 @@ class UsersRepositories implements IUsersRepositories {
   }
 
   async findByUsername(username: string): Promise<User | undefined> {
-    const response = await this.repository.findOneBy({
-      username,
+    const response = await this.repository.find({
+      where: {
+        username,
+      },
+      relations: ['account'],
     })
-    if (!response) {
+    if (!response[0]) {
       return undefined
     }
-    return response
+    return response[0]
   }
 }
 
