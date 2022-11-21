@@ -16,15 +16,11 @@ class CreateUserController {
     const userAlreadyExists = await usersRepositories.findByUsername(username)
 
     if (userAlreadyExists) {
-      console.log('User already exists')
       return response
-        .status(400)
+        .status(409)
         .json({ message: 'user already exists' })
         .send()
-    } else {
-      console.log('User does not exist')
     }
-
     const accountsRepositories = new AccountsRepositories(
       AppDataSource.getRepository(Account),
     )
