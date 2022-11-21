@@ -4,7 +4,8 @@ import { AccountsRepositories } from '../../repositories/implementations/Account
 import { User } from '../../entities/User'
 import { UsersRepositories } from '../../repositories/implementations/UsersRepositories'
 import { AppDataSource } from '../dataSourceInstance'
-
+import * as bcrypt from 'bcrypt'
+import { CreateUserUseCase } from './CreateUserUseCase'
 class CreateUserController {
   async handle(request: Request, response: Response) {
     const usersRepositories = new UsersRepositories(
@@ -25,25 +26,33 @@ class CreateUserController {
       AppDataSource.getRepository(Account),
     )
 
-    let user: User
-    let account: Account
+    const saltRounds = 10
+    const passwordHash = await bcrypt
+      .hash(password, saltRounds)
+      .then(function (hash) {
+        return hash
+      })
 
-    try {
-      account = await accountsRepositories.create()
-      user = new User(username, password, account)
-    } catch (error) {
-      console.log(error)
-      return response.status(500).json({ error: 'Internal Server Error1' })
+    if (!passwordHash) {
+      return response.status(500).json({ message: 'internal server error' })
     }
 
-    return await usersRepositories
-      .save(user)
+    const createUserUseCase = new CreateUserUseCase(
+      usersRepositories,
+      accountsRepositories,
+    )
+
+    return await createUserUseCase
+      .execute({
+        username,
+        password: passwordHash,
+      })
       .then((user) => {
         return response.status(201).json(user)
       })
       .catch((error) => {
         console.log(error)
-        return response.status(500).json({ error: 'Internal Server Error2' })
+        return response.status(500).json({ message: 'internal server error' })
       })
   }
 }
