@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { Account } from '../../../Accounts/Entities/Account'
-import { AccountsRepositories } from '../../../Accounts/repositories/implementations/AccountsRepositories'
+import { Account } from '../../entities/Account'
+import { AccountsRepositories } from '../../repositories/implementations/AccountsRepositories'
 import { User } from '../../entities/User'
 import { UsersRepositories } from '../../repositories/implementations/UsersRepositories'
 import { AppDataSource } from '../dataSourceInstance'

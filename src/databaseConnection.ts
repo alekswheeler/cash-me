@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm'
 import { join } from 'path'
-import { Account } from './Accounts/Entities/Account'
+import { Account } from './Users/entities/Account'
 import { User } from './Users/entities/User'
 import { Transaction } from './Transactions/entities/Transaction'
 

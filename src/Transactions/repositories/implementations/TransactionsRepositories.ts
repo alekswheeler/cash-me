@@ -1,5 +1,5 @@
 import { FindManyOptions, Raw, Repository } from 'typeorm'
-import { Account } from '../../../Accounts/Entities/Account'
+import { Account } from '../../../Users/entities/Account'
 import { User } from '../../../Users/entities/User'
 import { Transaction } from '../../entities/Transaction'
 import { ITransactionsRepositories } from '../ITransactionsRepositories'

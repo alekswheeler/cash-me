@@ -1,4 +1,4 @@
-import { Account } from '../Entities/Account'
+import { Account } from '../entities/Account'
 
 interface IAccountsRepositories {
   create(): Promise<Account>
