@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm'
-import { Account } from '../../Entities/Account'
+import { Account } from '../../entities/Account'
 import { IAccountsRepositories } from '../IAccountsRepositories'
 
 class AccountsRepositories implements IAccountsRepositories {
