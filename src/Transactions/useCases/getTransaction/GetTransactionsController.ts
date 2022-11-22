@@ -11,7 +11,7 @@ class GetTransactionsController {
       AppDataSource.getRepository(Transaction),
     )
 
-    const { username } = request.params
+    const username = request.username
 
     const usersRepositories = new UsersRepositories(
       AppDataSource.getRepository(User),

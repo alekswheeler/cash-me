@@ -7,7 +7,9 @@ import { TransactionsRepositories } from '../../repositories/implementations/Tra
 
 class CreateTransactionController {
   async handle(request: Request, response: Response) {
-    const { from, to, value } = request.body
+    const { to, value } = request.body
+
+    const from = request.username
 
     const usersRepositories = new UsersRepositories(
       AppDataSource.getRepository(User),
