@@ -9,6 +9,24 @@ class AccountsRepositories implements IAccountsRepositories {
     this.repository = repository
   }
 
+  async debit(account: Account, value: number): Promise<Account> {
+    if (account.balance < value) {
+      throw new Error('Insufficient funds')
+    }
+    const newValue = Number(account.balance) - Number(value)
+    account.balance = newValue
+
+    return await this.repository.save(account)
+  }
+
+  async credit(account: Account, value: number): Promise<Account> {
+    const newValue = Number(account.balance) + Number(value)
+
+    account.balance = newValue
+
+    return await this.repository.save(account)
+  }
+
   async create(): Promise<Account> {
     const account = new Account()
     return this.repository.save(account)

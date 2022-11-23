@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { ensureAuthenticated } from '../middlewares/ensureAutenticated'
+import { ensureMakeTransferData } from '../middlewares/ensureMakeTransferData'
 import { CreateTransactionController } from '../Transactions/useCases/createTransfer/CreateTransactionController'
 import { GetTransactionsController } from '../Transactions/useCases/getTransaction/GetTransactionsController'
 
@@ -11,6 +12,7 @@ const getTransactionsController = new GetTransactionsController()
 transactionsRoutes.post(
   '/',
   ensureAuthenticated,
+  ensureMakeTransferData,
   createTransactionController.handle,
 )
 transactionsRoutes.get(
