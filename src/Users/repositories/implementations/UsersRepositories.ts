@@ -10,14 +10,7 @@ class UsersRepositories implements IUsersRepositories {
   }
 
   async save(user: User): Promise<User> {
-    return await this.repository
-      .save(user)
-      .then((user) => {
-        return user
-      })
-      .catch((error) => {
-        throw new Error(error)
-      })
+    return await this.repository.save(user)
   }
 
   async findByUsername(username: string): Promise<User | undefined> {

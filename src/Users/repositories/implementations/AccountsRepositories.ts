@@ -1,4 +1,5 @@
 import { Repository } from 'typeorm'
+import { AppError } from '../../../utils/AppError/AppError'
 import { Account } from '../../entities/Account'
 import { IAccountsRepositories } from '../IAccountsRepositories'
 
@@ -11,7 +12,7 @@ class AccountsRepositories implements IAccountsRepositories {
 
   async debit(account: Account, value: number): Promise<Account> {
     if (account.balance < value) {
-      throw new Error('Insufficient funds')
+      throw new AppError('Insufficient funds', 400)
     }
     const newValue = Number(account.balance) - Number(value)
     account.balance = newValue

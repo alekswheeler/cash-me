@@ -5,6 +5,7 @@ import { UsersRepositories } from '../../repositories/implementations/UsersRepos
 import { AppDataSource } from '../dataSourceInstance'
 import { User } from '../../entities/User'
 import * as JWT from 'jsonwebtoken'
+import { AppError } from '../../../utils/AppError/AppError'
 
 class CreateLoginController {
   async handle(request: Request, response: Response) {
@@ -17,33 +18,23 @@ class CreateLoginController {
     const user = await usersRepositories.findByUsername(username)
 
     if (!user) {
-      return response
-        .status(400)
-        .json({ error: 'incorrect username or password' })
+      throw new AppError('Username or password incorrect', 400)
     }
 
-    let token: string
-    try {
-      token = JWT.sign(
-        { username: user.username },
-        process.env.SECRET as string,
-        {
-          expiresIn: '24h',
-          algorithm: 'HS256',
-        },
-      )
-    } catch (err) {
-      console.log(err)
-      return response.status(500).json({ error: 'internal server error' })
-    }
+    const token = JWT.sign(
+      { username: user.username },
+      process.env.SECRET as string,
+      {
+        expiresIn: '24h',
+        algorithm: 'HS256',
+      },
+    )
 
     await bcrypt.compare(password, user.password).then((result) => {
       if (result) {
         return response.status(200).json({ token })
       }
-      return response
-        .status(400)
-        .json({ error: 'incorrect username or password' })
+      throw new AppError('Username or password incorrect', 400)
     })
   }
 }
