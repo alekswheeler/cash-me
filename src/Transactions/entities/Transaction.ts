@@ -19,7 +19,9 @@ class Transaction {
   })
   debitedAccount: Account
 
-  @Column()
+  @Column({
+    type: 'numeric',
+  })
   value: number
 
   @Column({
