@@ -6,6 +6,7 @@ import { UsersRepositories } from '../../repositories/implementations/UsersRepos
 import { AppDataSource } from '../dataSourceInstance'
 import * as bcrypt from 'bcrypt'
 import { CreateUserUseCase } from './CreateUserUseCase'
+import { AppError } from '../../../utils/AppError/AppError'
 class CreateUserController {
   async handle(request: Request, response: Response) {
     const usersRepositories = new UsersRepositories(
@@ -17,10 +18,7 @@ class CreateUserController {
     const userAlreadyExists = await usersRepositories.findByUsername(username)
 
     if (userAlreadyExists) {
-      return response
-        .status(409)
-        .json({ message: 'user already exists' })
-        .send()
+      throw new AppError('User already exists', 400)
     }
     const accountsRepositories = new AccountsRepositories(
       AppDataSource.getRepository(Account),
@@ -34,7 +32,7 @@ class CreateUserController {
       })
 
     if (!passwordHash) {
-      return response.status(500).json({ message: 'internal server error' })
+      throw new AppError('Error while hashing password', 500)
     }
 
     const createUserUseCase = new CreateUserUseCase(
@@ -49,10 +47,6 @@ class CreateUserController {
       })
       .then((user) => {
         return response.status(201).json(user)
-      })
-      .catch((error) => {
-        console.log(error)
-        return response.status(500).json({ message: 'internal server error' })
       })
   }
 }

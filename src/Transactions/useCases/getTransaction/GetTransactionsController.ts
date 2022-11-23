@@ -4,6 +4,7 @@ import { TransactionsRepositories } from '../../repositories/implementations/Tra
 import { Request, Response } from 'express'
 import { UsersRepositories } from '../../../Users/repositories/implementations/UsersRepositories'
 import { User } from '../../../Users/entities/User'
+import { AppError } from '../../../utils/AppError/AppError'
 
 class GetTransactionsController {
   async handle(request: Request, response: Response) {
@@ -19,7 +20,7 @@ class GetTransactionsController {
     const user = await usersRepositories.findByUsername(username)
 
     if (!user) {
-      return response.status(400).json({ error: 'User not found' })
+      throw new AppError('User not found', 404)
     }
 
     const { dateFrom, dateTo, type } = request.query
@@ -33,10 +34,6 @@ class GetTransactionsController {
       )
       .then((transactions) => {
         return response.status(200).json(transactions)
-      })
-      .catch((error) => {
-        console.log(error)
-        return response.status(500).json({ error: error.message })
       })
   }
 }
