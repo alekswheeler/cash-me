@@ -6,9 +6,9 @@ const ensureGetTransactiondata = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const dateTo = req.query.dateFrom
+  const dateTo = req.query.dateTo
 
-  const dateFrom = req.query.dateTo
+  const dateFrom = req.query.dateFrom
 
   const type = req.query.type
 
