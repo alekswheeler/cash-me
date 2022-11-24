@@ -7,6 +7,7 @@ import { AppError } from '../../../utils/AppError/AppError'
 import { AppDataSource } from '../../dataSourceInstance'
 import { Transaction } from '../../entities/Transaction'
 import { TransactionsRepositories } from '../../repositories/implementations/TransactionsRepositories'
+import { CreateTransactionUseCase } from './CreateTransactionUseCase'
 
 class CreateTransactionController {
   async handle(request: Request, response: Response) {
@@ -42,16 +43,17 @@ class CreateTransactionController {
       throw new AppError('User not found', 404)
     }
 
-    const transfersRepositories = new TransactionsRepositories(
+    const transactionsRepositories = new TransactionsRepositories(
       AppDataSource.getRepository(Transaction),
     )
+    const createTransactionUseCase = new CreateTransactionUseCase(
+      transactionsRepositories,
+      accountsRepositories,
+    )
 
-    await accountsRepositories.debit(usernameFrom.account, value)
-    await accountsRepositories.credit(usernameTo.account, value)
-
-    return await transfersRepositories
-      .makeTransaction(usernameFrom.account, usernameTo.account, value)
-      .then((transaction) => {
+    return await createTransactionUseCase
+      .execute(usernameFrom.account, usernameTo.account, value)
+      .then((transaction: Transaction) => {
         return response.status(201).json(transaction)
       })
   }
