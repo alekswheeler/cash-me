@@ -25,9 +25,19 @@ Em outro terminal, faça a configuração das tabelas do banco de dados com o se
 
 Após isso, execute alguma chama à api. O servidor fica em ``http://localhost:8080``. Você pode usar o insomnia ou o curl pelo terminal.
 
-Caso queira executar alguns testes automatizados [FALR DOS TESTES QUE TEM]
+Caso queira executar alguns testes automatizados
     
     yarn test
+   
+Os testes implementados para a demonstração foram: Criação de conta e Efetuação do Login.
+
+- Criação de conta:
+    - Deve ser possível criar uma nova conta;
+    - Não deve ser possível criar duas contas com mesmo username;
+- Efetuação do login:
+    - Deve ser possível efeturar login com username e password;
+    - Não deve ser possível se autenticar com usernmae ou password incorretos;
+    - Não deve ser possível autenticar um usuário inexistente;
 
 ## Serviços implementados
 
@@ -57,7 +67,7 @@ Faça uma transferência para outro usuário [POST]/transactions
 
       {
         "to": "fulano",
-         "value": 50
+        "value": 50
       }
 
 ### Veja sua lista de transferências [GET]/transactions
@@ -65,9 +75,9 @@ Faça uma transferência para outro usuário [POST]/transactions
 Você também pode adicionar filtros por query params. Abaixo você encontra os formatos aceitos. Em questão de datas, qualquer formato de [data](https://www.postgresql.org/docs/15/datatype-datetime.html#DATATYPE-DATETIME-INPUT) aceito pelo postgres será aceito na aplicaçãoo
 
       {
-        dateTo: "yyyy/mm/dd"
-        dateFrom: "yyyy/mm/dd"
-        type: "cash-in" | "cash-out"
+        "dateTo": "yyyy/mm/dd"
+        "dateFrom": "yyyy/mm/dd"
+        "type": "cash-in" | "cash-out"
       }
 
 ### Veja o seu saldo atual [GET]/users/balance
@@ -90,8 +100,9 @@ Já conheço a maior parte das ferramentas utilizadas, entre elas:
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) (authentication)
 - [jest](https://jestjs.io/pt-BR/docs/getting-started) (test)
 - [postgres](https://www.postgresql.org/) (database)
+- eslint (pattern checker)
 
-Entretanto, ao trabalhar com os relacionamentos entre as tabelas pude desenvolver um conhecimento mais aprofundando de como o typeorm em específico funcina para esse mapeamento de chaves estrangeiras e também pude perceber como é feito o parse de entidades no seu código para as tabelas de bancos de dados.
+Entretanto, ao trabalhar com os relacionamentos entre as tabelas pude desenvolver um conhecimento mais aprofundando de como o typeorm em específico funcina para esse mapeamento de chaves estrangeiras e também pude perceber como é feito o parse de entidades no seu código para as tabelas de bancos de dados e vice-versa.
 
 Um outro conhecimento adquirido por meio deste projeto foi o de filtros com o typeorm. Tive que pesquisar muito afundo na documentação para conseguir fazer todas as pesquisas de maneira a conseguir obter os resultados esperados. E isso também se relaciona com o banco de dados, pois mesmo utilizando uma ferramenta ORM, é necessário conhecer bastante do banco de dados com o qual se está trabalhando. Toda vez que tinha que pensar sobre os tipos de dados a serem armazenados no postgres, valia a pena olhar a documentação e escolher qual o melhor tipo que é suportado pelo banco e que atende aos requisitos do projeto.
 
