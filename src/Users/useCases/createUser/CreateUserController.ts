@@ -4,9 +4,7 @@ import { AccountsRepositories } from '../../repositories/implementations/Account
 import { User } from '../../entities/User'
 import { UsersRepositories } from '../../repositories/implementations/UsersRepositories'
 import { AppDataSource } from '../dataSourceInstance'
-import * as bcrypt from 'bcrypt'
 import { CreateUserUseCase } from './CreateUserUseCase'
-import { AppError } from '../../../utils/AppError/AppError'
 class CreateUserController {
   async handle(request: Request, response: Response) {
     const usersRepositories = new UsersRepositories(
@@ -19,17 +17,6 @@ class CreateUserController {
 
     const { username, password } = request.body
 
-    const saltRounds = 10
-    const passwordHash = await bcrypt
-      .hash(password, saltRounds)
-      .then(function (hash) {
-        return hash
-      })
-
-    if (!passwordHash) {
-      throw new AppError('Error while hashing password', 500)
-    }
-
     const createUserUseCase = new CreateUserUseCase(
       usersRepositories,
       accountsRepositories,
@@ -38,7 +25,7 @@ class CreateUserController {
     return await createUserUseCase
       .execute({
         username,
-        password: passwordHash,
+        password,
       })
       .then((user) => {
         return response.status(201).json(user)
