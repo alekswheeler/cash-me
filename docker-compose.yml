@@ -7,9 +7,9 @@ services:
     ports:
      - 5432:5432
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=cashmedb
+      - "POSTGRES_USER=${PG_USER}"
+      - "POSTGRES_PASSWORD=${PG_PASSWORD}"
+      - "POSTGRES_DB=${PG_DB}"
     volumes:
      - pgdata:/data/postgres
   app:

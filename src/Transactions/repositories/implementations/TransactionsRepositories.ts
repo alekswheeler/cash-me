@@ -91,7 +91,6 @@ class TransactionsRepositories implements ITransactionsRepositories {
       })
     }
 
-    console.log(query)
     const queryParams: FindManyOptions<Transaction> = {
       where: query,
       relations: {
