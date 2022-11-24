@@ -3,6 +3,10 @@ import { Account } from '../../entities/Account'
 import { IAccountsRepositories } from '../IAccountsRepositories'
 
 class InMemoryAccountsRepositories implements IAccountsRepositories {
+  getBalance(username: string): Promise<Number> {
+    throw new Error('Method not implemented.')
+  }
+
   private accounts: Account[] = []
 
   async create(): Promise<Account> {

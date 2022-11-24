@@ -10,6 +10,19 @@ class AccountsRepositories implements IAccountsRepositories {
     this.repository = repository
   }
 
+  getBalance(id: string): Promise<Number> {
+    return this.repository
+      .findOneBy({
+        id,
+      })
+      .then((account) => {
+        if (!account) {
+          throw new AppError('Account not found', 404)
+        }
+        return account.balance
+      })
+  }
+
   async debit(account: Account, value: number): Promise<Account> {
     if (account.balance < value) {
       throw new AppError('Insufficient funds', 400)
