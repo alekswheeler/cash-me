@@ -100,6 +100,7 @@ Já conheço a maior parte das ferramentas utilizadas, entre elas:
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) (authentication)
 - [jest](https://jestjs.io/pt-BR/docs/getting-started) (test)
 - [postgres](https://www.postgresql.org/) (database)
+- eslint (pattern checker)
 
 Entretanto, ao trabalhar com os relacionamentos entre as tabelas pude desenvolver um conhecimento mais aprofundando de como o typeorm em específico funcina para esse mapeamento de chaves estrangeiras e também pude perceber como é feito o parse de entidades no seu código para as tabelas de bancos de dados e vice-versa.
 
