@@ -29,7 +29,7 @@ class TransactionsRepositories implements ITransactionsRepositories {
     dateTo?: string | undefined,
     type?: 'cash-in' | 'cash-out' | undefined,
   ): Promise<Transaction[]> {
-    let query = {}
+    const query = []
 
     if (!dateFrom) {
       dateFrom = new Date('January 13, 1999 11:13:00').toLocaleDateString()
@@ -39,29 +39,59 @@ class TransactionsRepositories implements ITransactionsRepositories {
     }
 
     if (type === 'cash-in') {
-      query = {
+      query.push({
         debitedAccount: {
           id: user.account.id,
         },
-      }
+        createdAt: Raw(
+          (alias) => `${alias} >= :dateFrom AND ${alias} <= :dateTo`,
+          {
+            dateFrom,
+            dateTo,
+          },
+        ),
+      })
     } else if (type === 'cash-out') {
-      query = {
+      query.push({
         creditedAccount: {
           id: user.account.id,
         },
-      }
+        createdAt: Raw(
+          (alias) => `${alias} >= :dateFrom AND ${alias} <= :dateTo`,
+          {
+            dateFrom,
+            dateTo,
+          },
+        ),
+      })
+    } else {
+      query.push({
+        creditedAccount: {
+          id: user.account.id,
+        },
+        createdAt: Raw(
+          (alias) => `${alias} >= :dateFrom AND ${alias} <= :dateTo`,
+          {
+            dateFrom,
+            dateTo,
+          },
+        ),
+      })
+      query.push({
+        debitedAccount: {
+          id: user.account.id,
+        },
+        createdAt: Raw(
+          (alias) => `${alias} >= :dateFrom AND ${alias} <= :dateTo`,
+          {
+            dateFrom,
+            dateTo,
+          },
+        ),
+      })
     }
 
-    Object.assign(query, {
-      createdAt: Raw(
-        (alias) => `${alias} >= :dateFrom AND ${alias} <= :dateTo`,
-        {
-          dateFrom,
-          dateTo,
-        },
-      ),
-    })
-
+    console.log(query)
     const queryParams: FindManyOptions<Transaction> = {
       where: query,
       relations: {

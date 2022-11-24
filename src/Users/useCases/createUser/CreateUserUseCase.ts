@@ -1,3 +1,4 @@
+import { AppError } from '../../../utils/AppError/AppError'
 import { ICreateUserDTO } from '../../dtos/CreateUserDTO'
 import { User } from '../../entities/User'
 import { IAccountsRepositories } from '../../repositories/IAccountsRepositories'
@@ -16,6 +17,14 @@ class CreateUserUseCase {
   }
 
   async execute({ username, password }: ICreateUserDTO) {
+    const userAlreadyExists = await this.usersRepositories.findByUsername(
+      username,
+    )
+
+    if (userAlreadyExists) {
+      throw new AppError('User already exists', 400)
+    }
+
     const account = await this.accountsRepositories.create()
     const user = new User(username, password, account)
 

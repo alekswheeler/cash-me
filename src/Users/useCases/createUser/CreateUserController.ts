@@ -13,16 +13,11 @@ class CreateUserController {
       AppDataSource.getRepository(User),
     )
 
-    const { username, password } = request.body
-
-    const userAlreadyExists = await usersRepositories.findByUsername(username)
-
-    if (userAlreadyExists) {
-      throw new AppError('User already exists', 400)
-    }
     const accountsRepositories = new AccountsRepositories(
       AppDataSource.getRepository(Account),
     )
+
+    const { username, password } = request.body
 
     const saltRounds = 10
     const passwordHash = await bcrypt
