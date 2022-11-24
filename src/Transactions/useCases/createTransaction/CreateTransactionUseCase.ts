@@ -20,8 +20,8 @@ class CreateTransactionUseCase {
     to: Account,
     value: number,
   ): Promise<Transaction> {
-    await this.accountsRepositories.debit(to, value)
-    await this.accountsRepositories.credit(from, value)
+    await this.accountsRepositories.debit(from, value)
+    await this.accountsRepositories.credit(to, value)
 
     return await this.transactionsRepositories.makeTransaction(from, to, value)
   }
