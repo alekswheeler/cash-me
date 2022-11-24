@@ -16,7 +16,7 @@ class TransactionsRepositories implements ITransactionsRepositories {
     to: Account,
     value: number,
   ): Promise<Transaction> {
-    const transaction = new Transaction(from, to, value)
+    const transaction = new Transaction(to, from, value)
 
     await this.repository.save(transaction)
 
