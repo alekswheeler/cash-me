@@ -1,7 +1,9 @@
 # chash-me
 
 Esse é um projeto nodejs backend para transferência de valores entre os usuários. É possível fazer login, forncendo usernma e password. Fazer transferências a outros usuários e visualizar o seu próprio saldo. Muitas regras foram atendidas para que o sistema esteja consistente em todas as suas operações, por exemplo, não é possível enviar uma quantia maior do que a que o usuário possui. 
-É importante ressaltar que apenas parte dos testes foram implementados, mas os existentes serevem bem para mostrar como que são feitos os testes automatizados.
+É importante ressaltar que apenas parte dos testes foram implementados, mas os existentes serevem bem para mostrar como que são feitos os testes automatizados. 
+
+Ademais, devido às características de orientação a objetos, um objeto do tipo transação tem acesso às duas contas à qual a mesma referência, e por esse motivo ao usar o ORM a resposta da query vem com esses dados. Esse ponto pode ser tratado no back-end para que um usuário ao listar as tranferências não veja o balance dos usuários para os quais fez alguma operação financeira. Mas, vale ressaltar que um usuário não consegue ter acesso à transações das quais o mesmo não fez parte.
 
 ## Como executar
 
@@ -13,7 +15,10 @@ ou
 
     npm i
 
-Após isso, crie um arquivo `.env` com as suas senhas, um arquivo `.env.local` está disponível para testes.
+Um arquivo `.env.local` está disponível para exemplo. Faça uma cópia para o arquivo de variáveis de ambiente com o seguinte comando
+
+    cp .env.local .env
+
 Depois é só "subir" os containers do docker
 
     sudo docker-compose up
@@ -52,14 +57,12 @@ Informe username e senha. Todas as contas começam com 100 reais
   
  ### Login [POST]/users/login
  
- Aqui você obtem o token para autenticação na API
+ Aqui você obtem o token para autenticação na API. Para qualquer serviço que o usuário deseje acessar, é necessaŕio que passe o token de autenticação via baerer token.
  
       {
         "username": "fulano",
         "password": "Password123"
       }
-      
- Você recebe um token que precisa ser passado para qualquer rota que se deseja ter acesso. Passe por baerer token
  
 ### Transferência
 
@@ -72,7 +75,7 @@ Faça uma transferência para outro usuário [POST]/transactions
 
 ### Veja sua lista de transferências [GET]/transactions
 
-Você também pode adicionar filtros por query params. Abaixo você encontra os formatos aceitos. Em questão de datas, qualquer formato de [data](https://www.postgresql.org/docs/15/datatype-datetime.html#DATATYPE-DATETIME-INPUT) aceito pelo postgres será aceito na aplicaçãoo
+Você também pode adicionar filtros por query params. Abaixo você encontra os formatos aceitos. Em questão de datas, qualquer formato de [data](https://www.postgresql.org/docs/15/datatype-datetime.html#DATATYPE-DATETIME-INPUT) aceito pelo postgres será aceito na aplicação.
 
       {
         "dateTo": "yyyy/mm/dd"
