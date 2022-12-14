@@ -1,7 +1,7 @@
 # chash-me
 
-Esse é um projeto nodejs backend para transferência de valores entre os usuários. É possível fazer login, forncendo usernma e password. Fazer transferências a outros usuários e visualizar o seu próprio saldo. Muitas regras foram atendidas para que o sistema esteja consistente em todas as suas operações, por exemplo, não é possível enviar uma quantia maior do que a que o usuário possui. 
-É importante ressaltar que apenas parte dos testes foram implementados, mas os existentes serevem bem para mostrar como que são feitos os testes automatizados. 
+Esse é um projeto nodejs backend para transferência de valores entre os usuários. É possível fazer login, forncendo usernma e password. Fazer transferências a outros usuários e visualizar o seu próprio saldo. Muitas regras foram atendidas para que o sistema esteja consistente em todas as suas operações, por exemplo, não é possível enviar uma quantia maior do que a que o usuário possui.
+É importante ressaltar que apenas parte dos testes foram implementados, mas os existentes serevem bem para mostrar como que são feitos os testes automatizados.
 
 Ademais, devido às características de orientação a objetos, um objeto do tipo transação tem acesso às duas contas à qual a mesma referência, e por esse motivo ao usar o ORM a resposta da query vem com esses dados. Esse ponto pode ser tratado no back-end para que um usuário ao listar as tranferências não veja o balance dos usuários para os quais fez alguma operação financeira. Mas, vale ressaltar que um usuário não consegue ter acesso à transações das quais o mesmo não fez parte.
 
@@ -28,21 +28,21 @@ Em outro terminal, faça a configuração das tabelas do banco de dados com o se
 
     yarn migration:up
 
-Após isso, execute alguma chama à api. O servidor fica em ``http://localhost:8080``. Você pode usar o insomnia ou o curl pelo terminal.
+Após isso, execute alguma chama à api. O servidor fica em `http://localhost:8080`. Você pode usar o insomnia ou o curl pelo terminal.
 
 Caso queira executar alguns testes automatizados
-    
+
     yarn test
-   
+
 Os testes implementados para a demonstração foram: Criação de conta e Efetuação do Login.
 
 - Criação de conta:
-    - Deve ser possível criar uma nova conta;
-    - Não deve ser possível criar duas contas com mesmo username;
+  - Deve ser possível criar uma nova conta;
+  - Não deve ser possível criar duas contas com mesmo username;
 - Efetuação do login:
-    - Deve ser possível efeturar login com username e password;
-    - Não deve ser possível se autenticar com usernmae ou password incorretos;
-    - Não deve ser possível autenticar um usuário inexistente;
+  - Deve ser possível efeturar login com username e password;
+  - Não deve ser possível se autenticar com usernmae ou password incorretos;
+  - Não deve ser possível autenticar um usuário inexistente;
 
 ## Serviços implementados
 
@@ -54,16 +54,16 @@ Informe username e senha. Todas as contas começam com 100 reais
         "username": "fulano",
         "password": "Password123"
       }
-  
- ### Login [POST]/users/login
- 
- Aqui você obtem o token para autenticação na API. Para qualquer serviço que o usuário deseje acessar, é necessaŕio que passe o token de autenticação via baerer token.
- 
+
+### Login [POST]/users/login
+
+Aqui você obtem o token para autenticação na API. Para qualquer serviço que o usuário deseje acessar, é necessaŕio que passe o token de autenticação via baerer token.
+
       {
         "username": "fulano",
         "password": "Password123"
       }
- 
+
 ### Transferência
 
 Faça uma transferência para outro usuário [POST]/transactions
@@ -91,7 +91,6 @@ Essa requisição retorna o saldo atual da pessoa logada. Exemplo de resposta:
             "balance": "300"
         }
 
-
 ## Aprendizados
 
 Já conheço a maior parte das ferramentas utilizadas, entre elas:
@@ -114,3 +113,5 @@ Um outro conhecimento adquirido por meio deste projeto foi o de filtros com o ty
 - injeção de dependências
 - documentação com swagger
 - implementação dos outros testes
+
+Isto é uma alteração de teste de Pull Request
