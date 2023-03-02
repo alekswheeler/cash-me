@@ -1,5 +1,3 @@
-import { AppError } from '../../../utils/AppError/AppError'
-import { ICreateUserDTO } from '../../dtos/CreateUserDTO'
 import { User } from '../../entities/User'
 import { IAccountsRepositories } from '../../repositories/IAccountsRepositories'
 import { IUsersRepositories } from '../../repositories/IUsersRepositories'
@@ -17,13 +15,19 @@ class CreateUserUseCase {
     this.accountsRepositories = accountsRepositories
   }
 
-  async execute({ username, password }: ICreateUserDTO) {
+  async execute({
+    username,
+    password,
+  }: {
+    username: string
+    password: string
+  }) {
     const userAlreadyExists = await this.usersRepositories.findByUsername(
       username,
     )
 
     if (userAlreadyExists) {
-      throw new AppError('User already exists', 400)
+      throw new Error('User already exists')
     }
 
     const saltRounds = 10
@@ -34,7 +38,7 @@ class CreateUserUseCase {
       })
 
     if (!passwordHash) {
-      throw new AppError('Error while hashing password', 500)
+      throw new Error('Error on password')
     }
 
     const account = await this.accountsRepositories.create()

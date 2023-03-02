@@ -1,4 +1,3 @@
-import { AppError } from '../../../utils/AppError/AppError'
 import { Account } from '../../entities/Account'
 import { IAccountsRepositories } from '../IAccountsRepositories'
 
@@ -17,39 +16,11 @@ class InMemoryAccountsRepositories implements IAccountsRepositories {
   }
 
   async debit(account: Account, value: number): Promise<Account> {
-    const accountIndex = this.accounts.findIndex(
-      (findAccount) => findAccount.id === account.id,
-    )
-
-    if (accountIndex === -1) {
-      throw new AppError('Account not found')
-    }
-
-    if (value > this.accounts[accountIndex].balance) {
-      throw new AppError('Insufficient funds')
-    }
-
-    const newValue = Number(this.accounts[accountIndex].balance) - Number(value)
-
-    this.accounts[accountIndex].balance = newValue
-
-    return this.accounts[accountIndex]
+    throw new Error('Method not implemented.')
   }
 
   async credit(account: Account, value: number): Promise<Account> {
-    const accountIndex = this.accounts.findIndex(
-      (findAccount) => findAccount.id === account.id,
-    )
-
-    if (accountIndex === -1) {
-      throw new AppError('Account not found')
-    }
-
-    const newValue = Number(this.accounts[accountIndex].balance) + Number(value)
-
-    this.accounts[accountIndex].balance = newValue
-
-    return this.accounts[accountIndex]
+    throw new Error('Method not implemented.')
   }
 }
 

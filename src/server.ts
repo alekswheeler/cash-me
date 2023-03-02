@@ -1,8 +1,6 @@
-import 'express-async-errors'
 import 'reflect-metadata'
-import express, { Request, Response, NextFunction } from 'express'
+import express from 'express'
 import { router } from './routes'
-import { AppError } from './utils/AppError/AppError'
 
 const app = express()
 
@@ -13,23 +11,6 @@ app.get('/', async (req, res) => {
 })
 
 app.use(router)
-
-app.use(
-  async (
-    error: Error,
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ) => {
-    if (error instanceof AppError) {
-      return response.status(error.statusCode).json({
-        message: error.message,
-      })
-    }
-
-    return response.status(500).json({ message: error.message })
-  },
-)
 
 app.listen(8080, () => {
   console.log('Server running on port 8080')
