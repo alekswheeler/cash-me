@@ -120,3 +120,4 @@ Um outro conhecimento adquirido por meio deste projeto foi o de filtros com o ty
 # Atualização
 
 A Injeção de dependências foi adiconada ao código.
+Comentário adicionais foram inseridos assim como um arquivo do insomnia com um fluxo de testes pré-configurado.
