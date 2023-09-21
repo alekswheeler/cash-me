@@ -1,14 +1,14 @@
 import { Request, Response, Router } from 'express'
 import { ensureAuthenticated } from '../middlewares/ensureAutenticated'
 import { verifyUserData } from '../middlewares/verifyUserData'
-import { CreateLoginController } from '../Users/useCases/createLogin/CreateLoginController'
-import { CreateUserController } from '../Users/useCases/createUser/CreateUserController'
-import { GetBallanceController } from '../Users/useCases/getBalance/GetBalanceController'
-import { UsersRepositories } from '../Users/repositories/implementations/UsersRepositories'
-import { User } from '../Users/entities/User'
-import { createConnection } from '../databaseConnection'
-import { Account } from '../Users/entities/Account'
-import { AccountsRepositories } from '../Users/repositories/implementations/AccountsRepositories'
+import { CreateLoginController } from '../controllers/usersControllers/createLogin/CreateLoginController'
+import { CreateUserController } from '../controllers/usersControllers/createUser/CreateUserController'
+import { GetBallanceController } from '../controllers/usersControllers/getBalance/GetBalanceController'
+import { createConnection } from '../persistence/context/databaseConnection'
+import { Account } from '../domain/models/Account'
+import { AccountsRepositories } from '../persistence/repositories/AccountsRepositories'
+import { UsersRepositories } from '../persistence/repositories/UsersRepositories'
+import { User } from '../domain/models/User'
 
 const usersRepositories = new UsersRepositories(
   createConnection().getRepository(User),
