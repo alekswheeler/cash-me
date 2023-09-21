@@ -1,15 +1,26 @@
 import { Request, Response } from 'express'
-import { Account } from '../../../Users/entities/Account'
-import { User } from '../../../Users/entities/User'
-import { AccountsRepositories } from '../../../Users/repositories/implementations/AccountsRepositories'
-import { UsersRepositories } from '../../../Users/repositories/implementations/UsersRepositories'
 import { AppError } from '../../../utils/AppError/AppError'
-import { AppDataSource } from '../../dataSourceInstance'
 import { Transaction } from '../../entities/Transaction'
-import { TransactionsRepositories } from '../../repositories/implementations/TransactionsRepositories'
 import { CreateTransactionUseCase } from './CreateTransactionUseCase'
+import { IAccountsRepositories } from '../../../Users/repositories/IAccountsRepositories'
+import { IUsersRepositories } from '../../../Users/repositories/IUsersRepositories'
+import { ITransactionsRepositories } from '../../repositories/ITransactionsRepositories'
 
 class CreateTransactionController {
+  private accountsRepositories: IAccountsRepositories
+  private usersRepositories: IUsersRepositories
+  private transactionsRepositories: ITransactionsRepositories
+
+  constructor(
+    accountsRepositories: IAccountsRepositories,
+    usersRepositories: IUsersRepositories,
+    transactionsRepositories: ITransactionsRepositories,
+  ) {
+    this.accountsRepositories = accountsRepositories
+    this.usersRepositories = usersRepositories
+    this.transactionsRepositories = transactionsRepositories
+  }
+
   async handle(request: Request, response: Response) {
     const { to, value } = request.body
 
@@ -19,15 +30,7 @@ class CreateTransactionController {
       throw new AppError('You cannot transfer to yourself', 400)
     }
 
-    const accountsRepositories = new AccountsRepositories(
-      AppDataSource.getRepository(Account),
-    )
-
-    const usersRepositories = new UsersRepositories(
-      AppDataSource.getRepository(User),
-    )
-
-    const usernameFrom = await usersRepositories.findByUsername(from)
+    const usernameFrom = await this.usersRepositories.findByUsername(from)
 
     if (!usernameFrom) {
       throw new AppError('User not found', 404)
@@ -37,18 +40,15 @@ class CreateTransactionController {
       throw new AppError('Insufficient funds', 400)
     }
 
-    const usernameTo = await usersRepositories.findByUsername(to)
+    const usernameTo = await this.usersRepositories.findByUsername(to)
 
     if (!usernameTo) {
       throw new AppError('User not found', 404)
     }
 
-    const transactionsRepositories = new TransactionsRepositories(
-      AppDataSource.getRepository(Transaction),
-    )
     const createTransactionUseCase = new CreateTransactionUseCase(
-      transactionsRepositories,
-      accountsRepositories,
+      this.transactionsRepositories,
+      this.accountsRepositories,
     )
 
     return await createTransactionUseCase

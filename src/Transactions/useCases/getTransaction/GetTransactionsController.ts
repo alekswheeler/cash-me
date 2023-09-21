@@ -1,11 +1,8 @@
-import { AppDataSource } from '../../dataSourceInstance'
-import { Transaction } from '../../entities/Transaction'
-import { TransactionsRepositories } from '../../repositories/implementations/TransactionsRepositories'
 import { Request, Response } from 'express'
-import { UsersRepositories } from '../../../Users/repositories/implementations/UsersRepositories'
-import { User } from '../../../Users/entities/User'
 import { AppError } from '../../../utils/AppError/AppError'
 import { GetTransactionsUseCase } from './GetTransactionsUseCase'
+import { ITransactionsRepositories } from '../../repositories/ITransactionsRepositories'
+import { IUsersRepositories } from '../../../Users/repositories/IUsersRepositories'
 
 interface IGetTransactions {
   dateFrom?: string
@@ -14,23 +11,28 @@ interface IGetTransactions {
 }
 
 class GetTransactionsController {
+  private transactionsRepositories: ITransactionsRepositories
+  private usersRepositories: IUsersRepositories
+
+  constructor(
+    transactionsRepositories: ITransactionsRepositories,
+    usersRepositories: IUsersRepositories,
+  ) {
+    this.transactionsRepositories = transactionsRepositories
+    this.usersRepositories = usersRepositories
+  }
+
   async handle(request: Request, response: Response) {
-    const transactionsRepositories = new TransactionsRepositories(
-      AppDataSource.getRepository(Transaction),
-    )
     const username = request.username
 
-    const usersRepositories = new UsersRepositories(
-      AppDataSource.getRepository(User),
-    )
-    const user = await usersRepositories.findByUsername(username)
+    const user = await this.usersRepositories.findByUsername(username)
 
     if (!user) {
       throw new AppError('User not found', 404)
     }
 
     const getTransactionsUseCase = new GetTransactionsUseCase(
-      transactionsRepositories,
+      this.transactionsRepositories,
     )
 
     const { dateFrom, dateTo, type }: IGetTransactions = request.query
