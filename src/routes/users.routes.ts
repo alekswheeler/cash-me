@@ -26,6 +26,8 @@ const getBalanceController = new GetBallanceController(usersRepositories)
 
 const usersRoutes = Router()
 
+// Este trecho é responsável por atrelar os middlewares de verificação de dados e de autenticação
+// E também por chamar os controllers responsáveis por cada rota.
 usersRoutes.post('/', verifyUserData, (req: Request, res: Response) => {
   return createUserController.handle(req, res)
 })
