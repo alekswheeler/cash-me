@@ -121,3 +121,4 @@ Um outro conhecimento adquirido por meio deste projeto foi o de filtros com o ty
 
 A Injeção de dependências foi adiconada ao código.
 Comentário adicionais foram inseridos assim como um arquivo do insomnia com um fluxo de testes pré-configurado.
+Na branch `reorganizacao` uma nova maneira de organizar os arquivos está disponível (mais legível?). Mas recomendo que para rodar o projeto use o código da main.
