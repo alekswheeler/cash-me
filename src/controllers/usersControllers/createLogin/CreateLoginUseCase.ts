@@ -1,0 +1,43 @@
+import * as JWT from 'jsonwebtoken'
+import * as bcrypt from 'bcrypt'
+import { AppError } from '../../../utils/AppError/AppError'
+import { ICreateUserDTO } from '../../../domain/models/CreateUserDTO'
+import { config } from 'dotenv'
+import { IUsersRepositories } from '../../../domain/repositories/IUsersRepositories'
+
+class CreateLoginUseCase {
+  private readonly usersRepositories: IUsersRepositories
+
+  constructor(usersRepositories: IUsersRepositories) {
+    this.usersRepositories = usersRepositories
+  }
+
+  async execute({ username, password }: ICreateUserDTO): Promise<string> {
+    config()
+
+    const user = await this.usersRepositories.findByUsername(username)
+    if (!user) {
+      throw new AppError('Username or password incorrect', 400)
+    }
+
+    // Neste trecho de código o token (JWT) é gerado para autorização do usuário.
+    const token = JWT.sign(
+      { username: user.username },
+      process.env.SECRET as string,
+      {
+        expiresIn: '24h',
+        algorithm: 'HS256',
+      },
+    )
+
+    const verify = await bcrypt.compare(password, user.password)
+
+    if (!verify) {
+      throw new AppError('Username or password incorrect', 400)
+    }
+
+    return token
+  }
+}
+
+export { CreateLoginUseCase }
