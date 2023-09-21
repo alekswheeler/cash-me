@@ -1,17 +1,17 @@
 import { Request, Response } from 'express'
-import { User } from '../../entities/User'
-import { UsersRepositories } from '../../repositories/implementations/UsersRepositories'
-import { AppDataSource } from '../dataSourceInstance'
 import { GetBalanceUseCase } from './GetBalanceUseCase'
+import { IUsersRepositories } from '../../repositories/IUsersRepositories'
 class GetBallanceController {
+  private usersRepositories: IUsersRepositories
+
+  constructor(usersRepositories: IUsersRepositories) {
+    this.usersRepositories = usersRepositories
+  }
+
   async handle(request: Request, response: Response) {
     const username = request.username
 
-    const usersRepositories = new UsersRepositories(
-      AppDataSource.getRepository(User),
-    )
-
-    const getBalanceUseCase = new GetBalanceUseCase(usersRepositories)
+    const getBalanceUseCase = new GetBalanceUseCase(this.usersRepositories)
 
     const balance = await getBalanceUseCase.execute(username)
 

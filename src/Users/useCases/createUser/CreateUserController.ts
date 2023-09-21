@@ -1,25 +1,26 @@
 import { Request, Response } from 'express'
-import { Account } from '../../entities/Account'
 import { AccountsRepositories } from '../../repositories/implementations/AccountsRepositories'
-import { User } from '../../entities/User'
-import { UsersRepositories } from '../../repositories/implementations/UsersRepositories'
-import { AppDataSource } from '../dataSourceInstance'
 import { CreateUserUseCase } from './CreateUserUseCase'
+import { IUsersRepositories } from '../../repositories/IUsersRepositories'
+import { IAccountsRepositories } from '../../repositories/IAccountsRepositories'
 class CreateUserController {
+  private usersRepositories: IUsersRepositories
+  private accountsRepositories: IAccountsRepositories
+
+  constructor(
+    usersRepositories: IUsersRepositories,
+    accountsRepositories: AccountsRepositories,
+  ) {
+    this.usersRepositories = usersRepositories
+    this.accountsRepositories = accountsRepositories
+  }
+
   async handle(request: Request, response: Response) {
-    const usersRepositories = new UsersRepositories(
-      AppDataSource.getRepository(User),
-    )
-
-    const accountsRepositories = new AccountsRepositories(
-      AppDataSource.getRepository(Account),
-    )
-
     const { username, password } = request.body
 
     const createUserUseCase = new CreateUserUseCase(
-      usersRepositories,
-      accountsRepositories,
+      this.usersRepositories,
+      this.accountsRepositories,
     )
 
     return await createUserUseCase
