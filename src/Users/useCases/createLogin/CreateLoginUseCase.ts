@@ -20,6 +20,7 @@ class CreateLoginUseCase {
       throw new AppError('Username or password incorrect', 400)
     }
 
+    // Neste trecho de código o token (JWT) é gerado para autorização do usuário.
     const token = JWT.sign(
       { username: user.username },
       process.env.SECRET as string,

@@ -5,6 +5,17 @@ import { User } from './Users/entities/User'
 import { Transaction } from './Transactions/entities/Transaction'
 import { config } from 'dotenv'
 
+/**
+ *
+ * O typeorm é Object Relational Mapper (ORM) que permite que você escreva código TypeScript
+ * para manipular dados em um banco de dados relacional (ou não relacional)
+ *
+ * Ele também é muito flexível e permite que você escreva migrations para o banco de dados,
+ * além de permitir que você troque o provedor de banco de dados sem precisar alterar o código.
+ *
+ * Mais sobre o typeorm estará no reame do projeto.
+ */
+
 const createConnection = (host: string = 'cashme_db') => {
   config()
   const AppDataSource = new DataSource({

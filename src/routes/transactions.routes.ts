@@ -34,6 +34,9 @@ const getTransactionsController = new GetTransactionsController(
   usersRepositories,
 )
 
+// Este trecho é responsável por atrelar os middlewares de verificação de dados e de autenticação
+// E também por chamar os controllers responsáveis por cada rota.
+
 transactionsRoutes.post(
   '/',
   ensureAuthenticated,
@@ -42,7 +45,6 @@ transactionsRoutes.post(
     return createTransactionController.handle(request, response)
   },
 )
-
 transactionsRoutes.get(
   '/',
   ensureAuthenticated,
