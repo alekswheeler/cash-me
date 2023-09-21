@@ -114,3 +114,9 @@ Um outro conhecimento adquirido por meio deste projeto foi o de filtros com o ty
 - injeção de dependências
 - documentação com swagger
 - implementação dos outros testes
+
+---
+
+# Atualização
+
+A Injeção de dependências foi adiconada ao código.
