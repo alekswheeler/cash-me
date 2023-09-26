@@ -122,3 +122,21 @@ Um outro conhecimento adquirido por meio deste projeto foi o de filtros com o ty
 A Injeção de dependências foi adiconada ao código.
 Comentário adicionais foram inseridos assim como um arquivo do insomnia com um fluxo de testes pré-configurado.
 Na branch `reorganizacao` (pull request aberto) encontra-se umma nova maneira de organizar os arquivos está disponível (mais legível?). Mas recomendo que para rodar o projeto use o código da main.
+
+## Curl commands
+
+**Create user**
+
+    curl -XPOST -H "Content-type: application/json" -d '{ "username": "fulano", "password": "Password123" }' 'http://localhost:8080/users'
+
+**Login user**
+
+    curl -XPOST -H "Content-type: application/json" -d '{ "username": "fulano", "password": "Password123" }' 'http://localhost:8080/users/login'
+
+**Make transfer**
+
+    curl -XPOST -H 'Authorization: Bearer <token>' -H "Content-type: application/json" -d  '{ "to": "fulano", "value": 15 }' 'http://localhost:8080/transactions'
+
+**Get Transfers**
+
+    curl -XGET -H 'Authorization: Bearer <token>' -H "Content-type: application/json" 'http://localhost:8080/transactions'
